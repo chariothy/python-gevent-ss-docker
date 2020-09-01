@@ -1,4 +1,3 @@
-psutil
 requests[socks]
 beautifulsoup4
 chariothy_common
