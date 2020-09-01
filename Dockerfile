@@ -25,8 +25,8 @@ LABEL maintainer="chariothy" \
 WORKDIR /usr/src/app
 COPY ./requirements.txt ./
 
-RUN apt update && \
-    apt install build-essential
+RUN apt-get update \
+     && apt-get install -y build-essential
 
 # Install libs
 RUN pip install --no-cache-dir -r ./requirements.txt
