@@ -21,8 +21,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: Get current date
-      id: date
+    - uses: actions/checkout@v2
+    - name: Set output
+      id: vars
       run: echo "::set-output name=date::$(date +'%Y%m%d')"
 
     # Runs a single command using the runners shell
