@@ -22,8 +22,8 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d')"
 
     # Runs a single command using the runners shell
     - name: Install buildx
