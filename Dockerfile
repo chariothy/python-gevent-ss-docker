@@ -25,7 +25,8 @@ LABEL maintainer="chariothy" \
 WORKDIR /usr/src/app
 COPY ./requirements.txt ./
 
-RUN apt install gcc
+RUN apt update && \
+    apt install build-essential
 
 # Install libs
 RUN pip install --no-cache-dir -r ./requirements.txt
