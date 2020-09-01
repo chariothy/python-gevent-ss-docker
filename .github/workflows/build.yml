@@ -39,11 +39,11 @@ jobs:
     - name: Build the image
       run: |
         docker buildx build --push \
-            --tag chariothy/getmiaoss-docker:latest \
-            --tag chariothy/getmiaoss-docker:${{ steps.date.outputs.date }} \
+            --tag ${{ secrets.DOCKER_USER }}/getmiaoss-docker:latest \
+            --tag ${{ secrets.DOCKER_USER }}/getmiaoss-docker:${{ steps.date.outputs.date }} \
             --platform linux/amd64,linux/arm64 .
 
     - name: Inspect image
       if: always() && github.event_name != 'pull_request'
       run: |
-        docker buildx imagetools inspect chariothy/getmiaoss-docker:latest
+        docker buildx imagetools inspect ${{ secrets.DOCKER_USER }}/getmiaoss-docker:latest
