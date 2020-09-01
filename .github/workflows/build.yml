@@ -41,7 +41,7 @@ jobs:
       run: |
         docker buildx build --push \
             --tag ${{ secrets.DOCKER_USER }}/getmiaoss-docker:latest \
-            --tag ${{ secrets.DOCKER_USER }}/getmiaoss-docker:${{ steps.date.outputs.date }} \
+            --tag ${{ secrets.DOCKER_USER }}/getmiaoss-docker:${{ steps.vars.outputs.date }} \
             --platform linux/amd64,linux/arm64 .
 
     - name: Inspect image
