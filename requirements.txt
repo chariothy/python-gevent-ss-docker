@@ -1,0 +1,6 @@
+psutil
+requests = {extras = ["socks"],version = "*"}
+beautifulsoup4
+chariothy_common
+gevent
+click
