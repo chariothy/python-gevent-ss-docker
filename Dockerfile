@@ -25,6 +25,8 @@ LABEL maintainer="chariothy" \
 WORKDIR /usr/src/app
 COPY ./requirements.txt ./
 
+RUN apt install gcc
+
 # Install libs
 RUN pip install --no-cache-dir -r ./requirements.txt
 # 本地编译时需要加国内代理
