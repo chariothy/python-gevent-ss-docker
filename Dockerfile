@@ -4,6 +4,8 @@
 FROM python:3.8-slim AS compile-env
 
 COPY requirements.txt .
+# Pre-compiled gevent
+RUN sed -i "/gevent/d" ./requirements.txt
 # Install libs
 RUN pip install --no-cache-dir --user -r ./requirements.txt
 # 本地编译时需要加国内代理
