@@ -6,8 +6,8 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches:
-      - master
+    tags:
+      - v*
   pull_request:
     branches: [ master ]
 
@@ -24,7 +24,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set output
       id: vars
-      run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      # run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
 
     # Runs a single command using the runners shell
     - name: Install buildx
@@ -41,7 +42,7 @@ jobs:
       run: |
         docker buildx build --push \
             --tag ${{ secrets.DOCKER_USER }}/getmiaoss-docker:latest \
-            --tag ${{ secrets.DOCKER_USER }}/getmiaoss-docker:${{ steps.vars.outputs.date }} \
+            --tag ${{ secrets.DOCKER_USER }}/dnspod-ddns:${{ steps.vars.outputs.tag }} \
             --platform linux/amd64,linux/arm64 .
 
     - name: Inspect image
