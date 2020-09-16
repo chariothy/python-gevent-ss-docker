@@ -34,6 +34,11 @@ LABEL maintainer="chariothy" \
 
 COPY --from=compile-env /root/.local /root/.local
 
+RUN apt-get update \
+	&& apt-get install -y shadowsocks-libev \
+  && apt-get autoclean \
+  && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/src/app
 
 ENV PATH=/root/.local/bin:$PATH
