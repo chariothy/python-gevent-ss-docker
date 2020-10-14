@@ -29,7 +29,8 @@ jobs:
       id: vars
       run: |
         echo ::set-output name=date::$(date +'%Y%m%d')
-        echo ::set-output name=rep::$(echo GITHUB_REPOSITORY | sed 's/-docker$//')
+        echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+        echo ::set-output name=rep::$(echo $GITHUB_REPOSITORY | sed 's/-docker$//')
 
     # Runs a single command using the runners shell
     - name: Install buildx
