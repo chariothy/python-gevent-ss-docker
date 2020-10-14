@@ -6,8 +6,8 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - master
   pull_request:
     branches: [ master ]
 
@@ -26,14 +26,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Set output
-      id: vars-tag
-      # run: echo "::set-output name=date::$(date +'%Y%m%d')"
-      run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+      id: vars1
+      run: echo ::set-output name=date::$(date +'%Y%m%d')
 
     - uses: actions/checkout@v2
     - name: Set output
-      id: vars-rep
-      # run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      id: vars2
       run: echo ::set-output name=rep::${GITHUB_REPOSITORY/\-docker$/}
 
     # Runs a single command using the runners shell
@@ -50,8 +48,8 @@ jobs:
     - name: Build the image
       run: |
         docker buildx build --push \
-            --tag ${{ steps.vars-rep.outputs.rep }}:${{ matrix.python-version }} \
-            --tag ${{ steps.vars-rep.outputs.rep }}:${{ matrix.python-version }}-latest \
-            --tag ${{ steps.vars-rep.outputs.rep }}:${{ matrix.python-version }}:${{ steps.vars-tag.outputs.tag }} \
+            --tag ${{ steps.vars2.outputs.rep }}:${{ matrix.python-version }} \
+            --tag ${{ steps.vars2.outputs.rep }}:${{ matrix.python-version }}-latest \
+            --tag ${{ steps.vars2.outputs.rep }}:${{ matrix.python-version }}:${{ steps.vars1.outputs.date }} \
             --build-arg PYVER=${{ matrix.python-version }} \
             --platform linux/amd64,linux/arm64 .
