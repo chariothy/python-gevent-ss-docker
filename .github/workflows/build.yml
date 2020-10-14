@@ -26,9 +26,14 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - name: Set output
-      id: vars
+      id: vars-tag
       # run: echo "::set-output name=date::$(date +'%Y%m%d')"
       run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+
+    - uses: actions/checkout@v2
+    - name: Set output
+      id: vars-rep
+      # run: echo "::set-output name=date::$(date +'%Y%m%d')"
       run: echo ::set-output name=rep::${GITHUB_REPOSITORY/\-docker$/}
 
     # Runs a single command using the runners shell
@@ -45,8 +50,8 @@ jobs:
     - name: Build the image
       run: |
         docker buildx build --push \
-            --tag ${{ steps.vars.outputs.rep }}:${{ matrix.python-version }} \
-            --tag ${{ steps.vars.outputs.rep }}:${{ matrix.python-version }}-latest \
-            --tag ${{ steps.vars.outputs.rep }}:${{ matrix.python-version }}:${{ steps.vars.outputs.tag }} \
+            --tag ${{ steps.vars-rep.outputs.rep }}:${{ matrix.python-version }} \
+            --tag ${{ steps.vars-rep.outputs.rep }}:${{ matrix.python-version }}-latest \
+            --tag ${{ steps.vars-rep.outputs.rep }}:${{ matrix.python-version }}:${{ steps.vars-tag.outputs.tag }} \
             --build-arg PYVER=${{ matrix.python-version }} \
             --platform linux/amd64,linux/arm64 .
